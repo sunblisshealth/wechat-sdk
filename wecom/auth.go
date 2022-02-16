@@ -24,7 +24,7 @@ const (
 )
 
 func GetAccessToken(corpId, corpSecret string) (*AccessToken, error) {
-	client := resty.Client{}
+	client := resty.New()
 	now := time.Now().Unix()
 	url := fmt.Sprintf(AccessTokenUrlFormat, corpId, corpSecret)
 
