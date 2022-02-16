@@ -1,4 +1,4 @@
-module wechat-sdk
+module github.com/sunblisshealth/wechat-sdk
 
 go 1.16
 
