@@ -22,22 +22,22 @@ import (
 //}
 
 type MessageRequest struct {
-	ToUser                 string       `json:"touser,omitempty"`
-	ToParty                string       `json:"toparty,omitempty"`
-	ToTag                  string       `json:"totag,omitempty"`
-	MsgType                string       `json:"msgtype,omitempty"`
-	AgentId                int          `json:"agentid,omitempty"`
-	Text                   Text         `json:"text,omitempty"`
-	TemplateCard           TemplateCard `json:"template_card,omitempty"`
-	Image                  Media        `json:"image,omitempty"`
-	Voice                  Media        `json:"voice,omitempty"`
-	File                   Media        `json:"file,omitempty"`
-	TextCard               TextCard     `json:"text_card,omitempty"`
-	News                   News         `json:"news,omitempty"`
-	Markdown               Text         `json:"markdown,omitempty"`
-	EnableIDTrans          int          `json:"enable_id_trans,omitempty"`
-	EnableDuplicateCheck   int          `json:"enable_duplicate_check,omitempty"`
-	DuplicateCheckInterval int          `json:"duplicate_check_interval,omitempty"`
+	ToUser                 string        `json:"touser,omitempty"`
+	ToParty                string        `json:"toparty,omitempty"`
+	ToTag                  string        `json:"totag,omitempty"`
+	MsgType                string        `json:"msgtype,omitempty"`
+	AgentId                int           `json:"agentid,omitempty"`
+	Text                   *Text         `json:"text,omitempty"`
+	TemplateCard           *TemplateCard `json:"template_card,omitempty"`
+	Image                  *Media        `json:"image,omitempty"`
+	Voice                  *Media        `json:"voice,omitempty"`
+	File                   *Media        `json:"file,omitempty"`
+	TextCard               *TextCard     `json:"text_card,omitempty"`
+	News                   *News         `json:"news,omitempty"`
+	Markdown               *Text         `json:"markdown,omitempty"`
+	EnableIDTrans          int           `json:"enable_id_trans,omitempty"`
+	EnableDuplicateCheck   int           `json:"enable_duplicate_check,omitempty"`
+	DuplicateCheckInterval int           `json:"duplicate_check_interval,omitempty"`
 }
 
 type News struct {
@@ -128,17 +128,17 @@ type CardAction struct {
 }
 type TemplateCard struct {
 	CardType              string                  `json:"card_type,omitempty"`
-	Source                Source                  `json:"source,omitempty"`
-	ActionMenu            ActionMenu              `json:"action_menu,omitempty"`
+	Source                *Source                 `json:"source,omitempty"`
+	ActionMenu            *ActionMenu             `json:"action_menu,omitempty"`
 	TaskID                string                  `json:"task_id,omitempty"`
-	MainTitle             MainTitle               `json:"main_title,omitempty"`
-	QuoteArea             QuoteArea               `json:"quote_area,omitempty"`
-	ImageTextArea         ImageTextArea           `json:"image_text_area,omitempty"`
-	CardImage             CardImage               `json:"card_image,omitempty"`
+	MainTitle             *MainTitle              `json:"main_title,omitempty"`
+	QuoteArea             *QuoteArea              `json:"quote_area,omitempty"`
+	ImageTextArea         *ImageTextArea          `json:"image_text_area,omitempty"`
+	CardImage             *CardImage              `json:"card_image,omitempty"`
 	VerticalContentList   []VerticalContentList   `json:"vertical_content_list,omitempty"`
 	HorizontalContentList []HorizontalContentList `json:"horizontal_content_list,omitempty"`
 	JumpList              []JumpList              `json:"jump_list,omitempty"`
-	CardAction            CardAction              `json:"card_action,omitempty"`
+	CardAction            *CardAction             `json:"card_action,omitempty"`
 }
 
 type MessageResponse struct {
@@ -162,9 +162,10 @@ const (
 	MessageTypeTextCard     = "textcard"
 	MessageTypeNews         = "news"
 	MessageTypeMarkdown     = "markdown"
+	CardTypeNewsNotice      = "news_notice"
 )
 
-func SendMessage(messageRequest *MessageRequest, agentId int, accessToken string) error {
+func SendMessage(messageRequest MessageRequest, accessToken string) error {
 	url := fmt.Sprintf(sendMessageUrlFormat, accessToken)
 	client := resty.New()
 	messageResponse := &MessageResponse{}
